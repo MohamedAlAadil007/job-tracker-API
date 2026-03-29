@@ -58,12 +58,17 @@ public class UserController {
         userRepository.deleteAll();
         return "Every Users have deleted Successfully";
     }
-    @DeleteMapping("/by-id")
-    public String deleteMultipleUsers(@PathVariable Long id){
-      UserEntity user=userRepository.findById(id).orElseThrow(()->new RuntimeException("User NOT found"));
-      userRepository.deleteById(id);
-      return "User Deleted successfully";
 
+    @DeleteMapping("/byid")
+    public String deleteMultipleUsersById(List<Long>ids){
+        List<UserEntity> users=userRepository.findAllById(ids);
+        
+        if (users.isEmpty()){
+            throw new RuntimeException("Table is already empty");
+        }
+        userRepository.deleteAllById(ids);
+        
+        return users.size()+" Users have deleted";
     }
 
 }
