@@ -9,10 +9,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<UserEntity,Long> {
     boolean existsByEmail(String email);
     boolean existsByName(String name);
-
-
-    List<UserEntity> findByEmailIn(List<String> emails);
-
-    List<UserEntity> findByNameIn(List<String> names);
+    List<UserEntity> getByEmail(List<String> emails);
+    List<UserEntity> findByName(List<String> names);
 }
 

@@ -2,7 +2,9 @@ package com.aadil.jobtracker.UserController;
 
 import com.aadil.jobtracker.UserService.UserServiceImp;
 import com.aadil.jobtracker.Validation.UserRequestDTO;
+import com.aadil.jobtracker.Validation.UserResponseDTO;
 import com.aadil.jobtracker.entity.UserEntity;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<UserRequestDTO> createUser(@RequestBody UserRequestDTO dto) {
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO dto) {
         return ResponseEntity.status(201).body(userService.createUser(dto));
     }
 
