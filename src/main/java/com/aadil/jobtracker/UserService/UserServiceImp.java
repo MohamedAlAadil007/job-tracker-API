@@ -43,26 +43,26 @@ public class UserServiceImp implements UserService{
 
     @Override
     public List<UserEntity> createUsers(List<UserEntity> users) {
-        for (UserEntity user:users){
-            validateUser(user);
-        }
-        //extract names and emails
-        List<String> emails=users.stream().map(UserEntity::getName).toList();
-        List<String> names=users.stream().map(UserEntity::getName).toList();
+     for(UserEntity user:users){
+         validateUser(user);
+         // extract names and email
+         List<String>names=users.stream().map(UserEntity::getName).toList();
+         List<String>emails=users.stream().map(UserEntity::getEmail).toList();
 
-        //single DB calls
+         //single DB calls
 
-        List<UserEntity>existByEmails=userRepository.findByEmailIn(emails);
-        List<UserEntity>existsByName=userRepository.findByNameIn(names);
+         List<UserEntity>getEmailIn=userRepository.findByEmailIn(emails);
+         List<UserEntity>getNameIn=userRepository.findByNameIn(names);
 
-        if (!existByEmails.isEmpty()){
-            throw new RuntimeException("Some Emails already exists");
-        }
-        if (!existsByName.isEmpty()){
-            throw new RuntimeException("Some Names already exists");
-        }
+         if (!getNameIn.isEmpty()){
+             throw new RuntimeException("Name is already exists");
+         }
+         if (!getEmailIn.isEmpty()){
+             throw new RuntimeException("Email is already exists");
+         }
+     }
+       return userRepository.saveAll(users);
 
-        return userRepository.saveAll(users);
     }
 
     @Override
@@ -114,25 +114,6 @@ public class UserServiceImp implements UserService{
          userRepository.deleteAllById(ids);
     }
 
-    @Override
-    public void validateUser(UserEntity user) {
-
-            if (user.getName()==null||user.getName().isEmpty()){
-                throw new RuntimeException("User Name required");
-            }
-            if (user.getEmail()==null||user.getEmail().isEmpty()){
-                throw new RuntimeException("User Email required");
-            }
-            if (user.getPassword()==null||user.getPassword().isEmpty()){
-                throw new RuntimeException("User Password required");
-            }
-            if (userRepository.existsByEmail(user.getEmail())){
-                throw new RuntimeException("User Email already exists");
-            }
-            if (userRepository.existsByName(user.getName())){
-                throw new RuntimeException("User Name already exists");
-            }
-    }
 
 
 }

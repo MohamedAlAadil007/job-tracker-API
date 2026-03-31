@@ -15,3 +15,4 @@ public interface UserRepository extends JpaRepository<UserEntity,Long> {
 
     List<UserEntity> findByNameIn(List<String> names);
 }
+
