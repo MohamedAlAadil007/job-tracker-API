@@ -11,19 +11,19 @@ public interface UserService {
 
     List<UserEntity> createUsers(List<UserEntity>users);
 
-    UserEntity getUser(Long id);
+    Optional<UserEntity> getUser(Long id);
 
+    List<UserEntity> getAllUsers();
 
-    List<UserEntity> getAllUsers (List<UserEntity>users);
+    Optional<UserEntity> updateUser (Long id, UserEntity user);
 
-    List<UserEntity> getAllUsersById(List<Long>ids);
+    void deleteUser (Long id);
 
-    UserEntity updateUser (Long id,UserEntity user);
+    void deleteAll();
 
-    String deleteUser (Long id);
+    void deleteById (List<Long>ids);
 
-    String deleteAll (String confirm);
+     void validateUser(UserEntity user);
 
-    String deleteById (List<Long>ids);
 
 }

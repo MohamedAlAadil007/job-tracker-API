@@ -1,7 +1,6 @@
 package com.aadil.jobtracker.UserController;
 
 import com.aadil.jobtracker.UserService.UserServiceImp;
-import com.aadil.jobtracker.UserRepository.UserRepository;
 import com.aadil.jobtracker.entity.UserEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,51 +30,35 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable Long id) {
-        return userRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return userService.getUser(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllUsers(List<UserEntity> users) {
-        return ResponseEntity.ok(userService.getAllUsers(users));
-    }
-
-    @GetMapping("/all/{id}")
-    public ResponseEntity<?> getAllUsersById(@PathVariable List<Long> ids) {
-        return ResponseEntity.ok(userService.getAllUsersById(ids));
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserEntity newUser) {
-        userRepository.findById(id).map(user -> {
-            user.setName(newUser.getName());
-            user.setPassword(newUser.getPassword());
-            user.setEmail(newUser.getEmail());
-
-            return userRepository.save(user);
-        });
-        return ResponseEntity.status(200).body(userService.updateUser(id, newUser));
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
+            return userService.updateUser(id, user).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id){
-        userRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+        return userService.getUser(id).map(user -> {
+            userService.deleteUser(id);
+            return ResponseEntity.ok("User deleted successfully");
+        }).orElse(ResponseEntity.notFound().build());
 
-         userService.deleteUser(id);
-        return "User deleted successfully";
     }
     @DeleteMapping("/all")
-    public String deleteAll(@RequestParam String confirm){
-        if (!"yes".equalsIgnoreCase(confirm)){
-            throw new RuntimeException("Enter ?confirm=yes to proceed");
-        }
-        return userService.deleteAll(confirm);
+    public ResponseEntity<?> deleteAll(){
+         userService.deleteAll();
+         return ResponseEntity.noContent().build();
     }
-    @DeleteMapping("by/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable List<Long>ids){
-        userRepository.findAllById(ids);
-        if (ids.isEmpty()){
-            throw new RuntimeException("Users are empty");
-        }
-        return ResponseEntity.ok("Users deleted successfully");
+    @DeleteMapping("/bulk")
+    public ResponseEntity<?> deleteById(@RequestBody List<Long>ids){
+        userService.deleteById(ids);
+        return ResponseEntity.noContent().build();
     }
 }
 
