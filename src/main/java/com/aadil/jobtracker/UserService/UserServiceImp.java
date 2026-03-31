@@ -14,6 +14,26 @@ public class UserServiceImp implements UserService{
     public UserServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    @Override
+    public void validateUser(UserEntity user) {
+
+        if (user.getName()==null||user.getName().isEmpty()){
+            throw new RuntimeException("User Name required");
+        }
+        if (user.getEmail()==null||user.getEmail().isEmpty()){
+            throw new RuntimeException("User Email required");
+        }
+        if (user.getPassword()==null||user.getPassword().isEmpty()){
+            throw new RuntimeException("User Password required");
+        }
+        if (userRepository.existsByEmail(user.getEmail())){
+            throw new RuntimeException("User Email already exists");
+        }
+        if (userRepository.existsByName(user.getName())){
+            throw new RuntimeException("User Name already exists");
+        }
+    }
+
 
     @Override
     public UserEntity createUser(UserEntity user) {
