@@ -15,8 +15,7 @@ public class UserController {
 
     private final UserServiceImp userService;
 
-    public UserController(UserRepository userRepository, UserServiceImp userService) {
-        this.userRepository = userRepository;
+    public UserController( UserServiceImp userService) {
         this.userService = userService;
     }
 
