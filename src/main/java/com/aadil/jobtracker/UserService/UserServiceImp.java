@@ -57,7 +57,7 @@ public class UserServiceImp implements UserService{
          if (!findByName.isEmpty()){
              throw new RuntimeException("Name is already exists");
          }
-         if (!getEmailIn.isEmpty()){
+         if (!findByEmail.isEmpty()){
              throw new RuntimeException("Email is already exists");
          }
      }
