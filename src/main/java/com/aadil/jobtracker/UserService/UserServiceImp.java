@@ -51,8 +51,8 @@ public class UserServiceImp implements UserService{
 
          //single DB calls
 
-         List<UserEntity>getEmailIn=userRepository.findByEmailIn(emails);
-         List<UserEntity>getNameIn=userRepository.findByNameIn(names);
+         List<UserEntity>findByEmail=userRepository.getByEmail(emails);
+         List<UserEntity>findByName=userRepository.findByName(names);
 
          if (!getNameIn.isEmpty()){
              throw new RuntimeException("Name is already exists");
