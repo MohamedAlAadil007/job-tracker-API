@@ -1,29 +1,27 @@
 package com.aadil.jobtracker.UserService;
 
-import com.aadil.jobtracker.entity.UserEntity;
+import com.aadil.jobtracker.Validation.UserRequestDTO;
+import com.aadil.jobtracker.Validation.UserResponseDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
-    UserEntity createUser(UserEntity user);
+    UserResponseDTO createUser(UserRequestDTO dto);
 
-    List<UserEntity> createUsers(List<UserEntity>users);
+    List<UserResponseDTO> createUsers(List<UserRequestDTO> dtos);
 
-    Optional<UserEntity> getUser(Long id);
+    Optional<UserResponseDTO> getUser(Long id);
 
-    List<UserEntity> getAllUsers();
+    List<UserResponseDTO> getUsers(List<Long> ids);
 
-    Optional<UserEntity> updateUser (Long id, UserEntity user);
+    Optional<UserResponseDTO> updateUser(Long id, UserRequestDTO dto);
 
-    void deleteUser (Long id);
+    void deleteUser(Long id);
 
-    void deleteAll();
+    void deleteAll ();
 
-    void deleteById (List<Long>ids);
-
-     void validateUser(UserEntity user);
-
+   void deleteById (List<Long>ids);
 
 }

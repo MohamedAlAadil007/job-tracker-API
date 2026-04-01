@@ -1,128 +1,1 @@
-package com.aadil.jobtracker.UserService;
-
-import com.aadil.jobtracker.UserRepository.UserRepository;
-import com.aadil.jobtracker.entity.UserEntity;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-
-@Service
-public class UserServiceImp implements UserService{
-    private final UserRepository userRepository;
-
-    public UserServiceImp(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    @Override
-    public void validateUser(UserEntity user) {
-
-        if (user.getName()==null||user.getName().isEmpty()){
-            throw new RuntimeException("User Name required");
-        }
-        if (user.getEmail()==null||user.getEmail().isEmpty()){
-            throw new RuntimeException("User Email required");
-        }
-        if (user.getPassword()==null||user.getPassword().isEmpty()){
-            throw new RuntimeException("User Password required");
-        }
-        if (userRepository.existsByEmail(user.getEmail())){
-            throw new RuntimeException("User Email already exists");
-        }
-        if (userRepository.existsByName(user.getName())){
-            throw new RuntimeException("User Name already exists");
-        }
-    }
-
-
-    @Override
-    public UserEntity createUser(UserEntity user) {
-        validateUser(user);
-        return userRepository.save(user);
-    }
-
-    @Override
-    public List<UserEntity> createUsers(List<UserEntity> users) {
-     for(UserEntity user:users){
-         validateUser(user);
-         // extract names and email
-         List<String>names=users.stream().map(UserEntity::getName).toList();
-         List<String>emails=users.stream().map(UserEntity::getEmail).toList();
-
-         //single DB calls
-
-         List<UserEntity>findByEmail=userRepository.getByEmail(emails);
-         List<UserEntity>findByName=userRepository.findByName(names);
-
-         if (!findByName.isEmpty()){
-             throw new RuntimeException("Name is already exists");
-         }
-         if (!findByEmail.isEmpty()){
-             throw new RuntimeException("Email is already exists");
-         }
-     }
-       return userRepository.saveAll(users);
-
-    }
-
-    @Override
-    public Optional<UserEntity> getUser(Long id) {
-        return userRepository.findById(id);
-    }
-
-    @Override
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public Optional<UserEntity> updateUser(Long id, UserEntity newUser) {
-        return userRepository.findById(id).map(user -> {
-            if (newUser.getName()!=null){
-                user.setName(newUser.getName());
-            }
-            if (newUser.getPassword()!=null){
-                user.setPassword(newUser.getPassword());
-            }
-            if (newUser.getEmail()!=null){
-                user.setEmail(newUser.getEmail());
-            }
-
-            return userRepository.save(user);
-        });
-    }
-
-    @Override
-    public void deleteUser(Long id) {
-        UserEntity user=userRepository.findById(id).orElseThrow(()->new RuntimeException("User NOT found: "+id));
-
-        userRepository.delete(user);
-    }
-
-    @Override
-    public void deleteAll() {
-       userRepository.deleteAll();
-    }
-
-    @Override
-    public void deleteById(List<Long> ids) {
-        List<UserEntity> users=userRepository.findAllById(ids);
-
-        if (users.size()!=ids.size()){
-            throw new RuntimeException("Some Users are NOT found");
-        }
-         userRepository.deleteAllById(ids);
-    }
-
-   public UserEntity mapToEntity(UserRequestDTO dto){
-        UserEntity user=new UserEntity();
-        user.setEmail(dto.getEmail());
-        user.setName(dto.getName());
-        user.setPassword(user.getPassword());
-
-        return userRepository.save(user);
-   }
-
-
-
-}
+package com.aadil.jobtracker.UserService;import com.aadil.jobtracker.entity.UserEntity;import com.aadil.jobtracker.UserRepository.UserRepository;import com.aadil.jobtracker.Validation.UserRequestDTO;import com.aadil.jobtracker.Validation.UserResponseDTO;import org.springframework.stereotype.Service;import java.util.List;import java.util.Optional;@Servicepublic class UserServiceImp implements UserService {    private final UserRepository userRepository;    public UserServiceImp(UserRepository userRepository) {        this.userRepository = userRepository;    }    public UserEntity mapToEntity (UserRequestDTO dto){        UserEntity user=new UserEntity();        user.setPassword(dto.getPassword());        user.setName(dto.getName());        user.setEmail(dto.getEmail());       return userRepository.save(user);    }    public UserResponseDTO mapToDTO (UserEntity dto){        return new UserResponseDTO(dto.getName(), dto.getEmail(), dto.getId());    }    @Override    public UserResponseDTO createUser(UserRequestDTO dto) {        if (userRepository.existsByName(dto.getName())){            throw new RuntimeException("User Name already exists");        }        if (userRepository.existsByEmail(dto.getEmail())){            throw new RuntimeException("User Email already exists");        }        UserEntity user=mapToEntity(dto);        UserEntity savedUsers=userRepository.save(user);        return mapToDTO(savedUsers);    }    @Override    public List<UserResponseDTO> createUsers(List<UserRequestDTO> dtos) {        List<UserEntity>users=dtos.stream().map(this::mapToEntity).toList();        List<UserEntity> savedUsers=userRepository.saveAll(users);        return savedUsers.stream().map(this::mapToDTO).toList();    }    @Override    public Optional<UserResponseDTO> getUser(Long id) {       return userRepository.findById(id).map(this::mapToDTO);    }    @Override    public List<UserResponseDTO> getUsers(List<Long> ids) {        List<UserEntity> users=userRepository.findAllById(ids).stream().toList();        return users.stream().map(this::mapToDTO).toList();    }    @Override    public Optional<UserResponseDTO> updateUser(Long id, UserRequestDTO dto) {      return userRepository.findById(id).map(user -> {            user.setEmail(dto.getEmail());            user.setName(dto.getName());            user.setPassword(dto.getPassword());            UserEntity savedUser=userRepository.save(user);            return mapToDTO(savedUser);        });    }    @Override    public void deleteUser(Long id) {        userRepository.deleteById(id);    }    @Override    public void deleteAll() {        userRepository.deleteAll();    }    @Override    public void deleteById(List<Long> ids) {        userRepository.deleteAllById(ids);    }}
