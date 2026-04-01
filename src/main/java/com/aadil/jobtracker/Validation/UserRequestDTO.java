@@ -9,6 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRequestDTO {
+    @NotBlank(message = "ID cannot be empty")
+    private Long id;
     @NotBlank(message = "Name should be required")
     private String name;
 
