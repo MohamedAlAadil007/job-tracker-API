@@ -114,6 +114,15 @@ public class UserServiceImp implements UserService{
          userRepository.deleteAllById(ids);
     }
 
+   public UserEntity mapToEntity(UserRequestDTO dto){
+        UserEntity user=new UserEntity();
+        user.setEmail(dto.getEmail());
+        user.setName(dto.getName());
+        user.setPassword(user.getPassword());
+
+        return userRepository.save(user);
+   }
+
 
 
 }
