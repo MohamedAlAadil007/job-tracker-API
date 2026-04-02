@@ -1,6 +1,5 @@
 package com.aadil.jobtracker.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 @Getter

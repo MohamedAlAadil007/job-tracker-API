@@ -14,7 +14,9 @@ public interface UserService {
 
     Optional<UserResponseDTO> getUser(Long id);
 
-    List<UserResponseDTO> getUsers(List<Long> ids);
+    List<UserResponseDTO> getUsersById(List<Long> ids);
+
+    List<UserResponseDTO> getAllUsers();
 
     Optional<UserResponseDTO> updateUser(Long id, UserRequestDTO dto);
 
