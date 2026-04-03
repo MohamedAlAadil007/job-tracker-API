@@ -2,6 +2,7 @@ package com.aadil.jobtracker.UserService;
 
 import com.aadil.jobtracker.Validation.UserRequestDTO;
 import com.aadil.jobtracker.Validation.UserResponseDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
