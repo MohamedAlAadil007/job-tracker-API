@@ -2,6 +2,7 @@ package com.aadil.jobtracker.UserService;
 
 import com.aadil.jobtracker.Validation.UserRequestDTO;
 import com.aadil.jobtracker.Validation.UserResponseDTO;
+import com.aadil.jobtracker.entity.UserEntity;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -17,7 +18,8 @@ public interface UserService {
 
     List<UserResponseDTO> getUsersById(List<Long> ids);
 
-    List<UserResponseDTO> getAllUsers();
+    Page<UserEntity> getAllUsers(String name, String email, int page, int size, String sortBy, String direction);
+
 
     Optional<UserResponseDTO> updateUser(Long id, UserRequestDTO dto);
 
