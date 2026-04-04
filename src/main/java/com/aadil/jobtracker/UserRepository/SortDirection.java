@@ -1,1 +1,1 @@
-package com.aadil.jobtracker.UserRepository;public enum SortDirection {    ASC,    DESC}
+package com.aadil.jobtracker.UserRepository;public enum SortDirection {    ASC,    DESC;}

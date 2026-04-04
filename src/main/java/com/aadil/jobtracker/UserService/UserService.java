@@ -1,10 +1,8 @@
 package com.aadil.jobtracker.UserService;
-
 import com.aadil.jobtracker.UserRepository.SortDirection;
 import com.aadil.jobtracker.UserRepository.UserSortField;
 import com.aadil.jobtracker.Validation.UserRequestDTO;
 import com.aadil.jobtracker.Validation.UserResponseDTO;
-import com.aadil.jobtracker.entity.UserEntity;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -18,7 +16,7 @@ public interface UserService {
 
     Optional<UserResponseDTO> getUser(Long id);
 
-    Page<UserResponseDTO> getAllUsers(String search, int page, int size, UserSortField sortField, SortDirection direction);
+        Page<UserResponseDTO> getAllUsers(String search, int page, int size, UserSortField sortField, SortDirection sortDirection);
 
     List<UserResponseDTO> getUsersById(List<Long> ids);
 
