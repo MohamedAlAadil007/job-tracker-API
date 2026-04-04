@@ -1,5 +1,7 @@
 package com.aadil.jobtracker.UserService;
 
+import com.aadil.jobtracker.UserRepository.SortDirection;
+import com.aadil.jobtracker.UserRepository.UserSortField;
 import com.aadil.jobtracker.Validation.UserRequestDTO;
 import com.aadil.jobtracker.Validation.UserResponseDTO;
 import com.aadil.jobtracker.entity.UserEntity;
@@ -16,9 +18,9 @@ public interface UserService {
 
     Optional<UserResponseDTO> getUser(Long id);
 
-    List<UserResponseDTO> getUsersById(List<Long> ids);
+    Page<UserResponseDTO> getAllUsers(String search, int page, int size, UserSortField sortField, SortDirection direction);
 
-    Page<UserEntity> getAllUsers(String name, String email, int page, int size, String sortBy, String direction);
+    List<UserResponseDTO> getUsersById(List<Long> ids);
 
 
     Optional<UserResponseDTO> updateUser(Long id, UserRequestDTO dto);
