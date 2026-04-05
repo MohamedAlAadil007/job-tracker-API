@@ -16,7 +16,7 @@ public interface UserService {
 
     Optional<UserResponseDTO> getUser(Long id);
 
-        Page<UserResponseDTO> getAllUsers(String search, int page, int size, UserSortField sortField, SortDirection sortDirection);
+        Page<UserResponseDTO> getAllUsers(String search,int page,int size,UserSortField sortField,SortDirection sortDirection);
 
     List<UserResponseDTO> getUsersById(List<Long> ids);
 
