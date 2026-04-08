@@ -1,1 +1,1 @@
-package com.aadil.jobtracker.exceptions;public class ResourceNotFoundException extends RuntimeException {    public ResourceNotFoundException(String message) {        super(message);    }}
+package com.aadil.jobtracker.exceptions;public class ResourceNotFoundException extends RuntimeException{    public ResourceNotFoundException(String message){        super(message);    }}
