@@ -13,7 +13,6 @@ public class UserRequestDTO {
 
     private Long id;
     @NotBlank(message = "Name should be required")
-
     private String name;
 
     @Email(message = "Invalid Email")
