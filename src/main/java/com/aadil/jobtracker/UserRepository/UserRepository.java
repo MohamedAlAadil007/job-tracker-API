@@ -7,10 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<UserEntity,Long> {
     boolean existsByEmail(String email);
     boolean existsByName(String name);
 
     Page<@NotNull UserEntity> findByNameContainingIgnoreCaseAndEmailContainingIgnoreCase(String name, String email, Pageable pageable);
+
+    Optional<UserEntity> findByEmail(String email);
 }
 
