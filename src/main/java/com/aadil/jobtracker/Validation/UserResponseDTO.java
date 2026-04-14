@@ -1,7 +1,6 @@
 package com.aadil.jobtracker.Validation;
 import lombok.*;
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponseDTO {

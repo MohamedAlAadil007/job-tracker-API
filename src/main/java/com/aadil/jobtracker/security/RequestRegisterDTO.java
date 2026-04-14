@@ -1,1 +1,1 @@
-package com.aadil.jobtracker.security;import lombok.Getter;import lombok.Setter;@Getter@Setterpublic class RequestRegisterDTO {    private String username;    private String email;    private String password;}
+package com.aadil.jobtracker.security;import lombok.Data;@Datapublic class RequestRegisterDTO {    private String username;    private String email;    private String password;}
