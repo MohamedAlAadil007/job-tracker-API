@@ -1,0 +1,1 @@
+package com.aadil.jobtracker.UserService;import org.springframework.security.core.userdetails.UserDetails;public interface UserServiceDetails {     UserDetails loadUserByUsername(String name);}
