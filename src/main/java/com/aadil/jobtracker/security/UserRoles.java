@@ -1,0 +1,1 @@
+package com.aadil.jobtracker.security;import lombok.Getter;@Getterpublic enum UserRoles {    USER("user"),    ADMIN("admin");    private final String UserRoles;    UserRoles(String userRoles) {        this.UserRoles=userRoles;    }}
